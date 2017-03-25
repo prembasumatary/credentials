@@ -2,7 +2,6 @@
 !.tx
 !acceptance_tests
 !credentials
-!docker/credentials.yml
 !docs
 !requirements
 !.eslintrc.json

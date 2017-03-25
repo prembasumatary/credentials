@@ -1,14 +1,12 @@
+# docker build -f docker/alpine/Dockerfile . -t clintonb/credentials:alpine
+
 FROM clintonb/edx-base:alpine
 ENV PYTHONUNBUFFERED 1
-ENV CREDENTIALS_CFG /edx/etc/credentials.yml
 ENV DJANGO_SETTINGS_MODULE credentials.settings.devstack
 ENV ENABLE_DJANGO_TOOLBAR 1
 
 WORKDIR /code
 
-RUN mkdir -p /edx/var/credentials/media /edx/var/credentials/staticfiles
-
-COPY docker/credentials.yml ${CREDENTIALS_CFG}
 COPY Makefile /code/
 COPY requirements.txt /code/
 COPY package.json /code/
