@@ -13,7 +13,7 @@ cache:
     - node_modules
 
 before_install:
-  - docker build -f docker/slim/Dockerfile . -t edxops/credentials:latest
+  - docker build . -t clintonb/credentials:slim
   - make up-test
 
 script:

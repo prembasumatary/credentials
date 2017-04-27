@@ -13,9 +13,12 @@ services:
       - MYSQL_DATABASE=credentials
 
   credentials:
-    image: edxops/credentials:latest
+    build: .
+    image: clintonb/credentials:slim
     container_name: credentials
     depends_on:
       - db
     stdin_open: true
     tty: true
+    ports:
+      - "18150:18150"
