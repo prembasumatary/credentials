@@ -54,7 +54,7 @@ up-dev: ## Bring up services for development
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 up-test: ## Bring up services for testing
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
 
 exec-requirements: ## Install requirements on a container
 	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && apt update && apt install -y gettext firefox xvfb && $(APP_DIR) && make requirements'
