@@ -8,6 +8,7 @@
 !.isort.cfg
 !.pep8
 !gulpfile.js
+!karma.conf.js
 !Makefile
 !manage.py
 !package.json
