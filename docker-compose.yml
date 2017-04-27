@@ -13,8 +13,7 @@ services:
       - MYSQL_DATABASE=credentials
 
   credentials:
-    # TODO: Use the "latest" tag once it's updated.
-    image: edxops/credentials:devstack
+    image: edxops/credentials:latest
     container_name: credentials
     depends_on:
       - db

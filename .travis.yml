@@ -12,11 +12,14 @@ cache:
   - directories:
     - node_modules
 
-before_install: make up-test
+before_install:
+  - docker build -f docker/slim/Dockerfile . -t edxops/credentials:latest
+  - make up-test
 
-install: make exec-requirements
-
-script: make exec-validate
+script:
+  # TODO Consider a method that does not rely on git
+  - git diff --exit-code -G "^(msgid|msgstr)"
+  - make exec-validate
 
 after_success:
   - pip install --upgrade codecov

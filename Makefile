@@ -11,9 +11,10 @@ help: ## Display this help message
 	@echo "Please use \`make <target>\` where <target> is one of"
 	@perl -nle'print $& if m{^[\.a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
 
+# TODO Add a separate target to clean static assets
 clean: ## Remove all generated files
 	coverage erase
-	rm -rf credentials/assets/ credentials/static/bundles/ coverage htmlcov test_root/uploads
+	rm -rf coverage htmlcov test_root/uploads
 
 production-requirements: ## Install requirements for production
 	npm install --production
@@ -59,24 +60,24 @@ exec-requirements: ## Install requirements on a container
 	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && apt update && apt install -y gettext firefox xvfb && $(APP_DIR) && make requirements'
 
 exec-validate-translations: ## Check translations on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(APP_DIR) && make validate_translations'
+	docker exec -t credentials bash -c 'make validate_translations'
 
 exec-clean: ## Remove all generated files from a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(APP_DIR) && make clean'
+	docker exec -t credentials bash -c 'make clean'
 
 exec-static: ## Gather static assets on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && $(APP_DIR) && make static'
+	docker exec -t credentials bash -c 'make static'
 
 exec-quality: ## Run linters on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && $(APP_DIR) && make quality'
+	docker exec -t credentials bash -c 'make quality'
 
 exec-tests: ## Run tests on a container
-	docker exec -it credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && $(APP_DIR) && xvfb-run make tests'
+	docker exec -it credentials bash -c 'xvfb-run make tests'
 
-exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests ## Run linters and tests after checking translations and gathering static assets
+exec-validate: exec-clean exec-quality exec-tests ## Run linters and tests after checking translations and gathering static assets
 
 exec-coverage: ## Generate XML coverage report on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(APP_DIR) && coverage xml'
+	docker exec -t credentials bash -c 'coverage xml'
 
 html_coverage: ## Generate and view HTML coverage report
 	coverage html && open htmlcov/index.html
