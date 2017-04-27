@@ -13,6 +13,7 @@
 !package.json
 !pylintrc
 !pylintrc_tweaks
+!pytest.ini
 !README.rst
 !requirements.txt
 !webpack.config.js
